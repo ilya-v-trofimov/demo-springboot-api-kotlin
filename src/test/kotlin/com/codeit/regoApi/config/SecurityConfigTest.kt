@@ -1,4 +1,4 @@
-package com.codeit.regoApi.controller
+package com.codeit.regoApi.config
 
 import com.codeit.regoApi.config.ApiKeyVerificationFilter.Companion.API_KEY_HEADER
 import org.junit.jupiter.api.Test
@@ -13,16 +13,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PersonControllerTest(
+class SecurityConfigTest(
     @Autowired val mockMvc: MockMvc,
     @Value("\${api.key}") val apiKey: String
 ) {
     @Test
-    fun `createPerson should create and return new Person`() {
+    fun `calls without API Key should return 403`() {
         //given
-        val firstName = "firstName200"
-        val lastName = "lastName200"
-        val address = "address200"
+        val firstName = "firstName403"
+        val lastName = "lastName403"
+        val address = "address403"
 
         //when
         //then
@@ -31,23 +31,17 @@ class PersonControllerTest(
                 .param("firstName", firstName)
                 .param("lastName", lastName)
                 .param("address", address)
-                .header(API_KEY_HEADER, apiKey)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("id").isString)
-            .andExpect(MockMvcResultMatchers.jsonPath("firstName").value(firstName))
-            .andExpect(MockMvcResultMatchers.jsonPath("lastName").value(lastName))
-            .andExpect(MockMvcResultMatchers.jsonPath("address").value(address))
+        ).andExpect(MockMvcResultMatchers.status().isForbidden)
     }
 
     @Test
-    fun `createPerson should return 400 when Person already exists`() {
+    fun `calls with wrong API Key should return 403`() {
         //given
-        val firstName = "firstName400"
-        val lastName = "lastName400"
-        val address = "address400"
+        val firstName = "firstName403"
+        val lastName = "lastName403"
+        val address = "address403"
 
         //when
         //then
@@ -56,18 +50,9 @@ class PersonControllerTest(
                 .param("firstName", firstName)
                 .param("lastName", lastName)
                 .param("address", address)
-                .header(API_KEY_HEADER, apiKey)
+                .header(API_KEY_HEADER, "some-random-key")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-        mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/v1/person")
-                .param("firstName", firstName)
-                .param("lastName", lastName)
-                .param("address", address)
-                .header(API_KEY_HEADER, apiKey)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isBadRequest)
+        ).andExpect(MockMvcResultMatchers.status().isForbidden)
     }
 }
