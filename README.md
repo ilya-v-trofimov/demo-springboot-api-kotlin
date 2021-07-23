@@ -1,11 +1,11 @@
 #Person and Vehicle API Project
 ##Description
 This project is an implementation of a simple API with 2 related entities: Person and Vehicle<br>
-Project implemented with Kotlin 1.5 (compiled to Java 11), SpringBoot 2.6, Gradle 6.8
-DB used is H2 in-memory. H2 console is available at `http://<server:port>/h2-console`
-API authentication is done using api key provided in `X-API-KEY` header (configured via `application.properties`)
-API documentation is provided using Swagger2 (ui access via `http://<server:port>/swagger-ui.html`)
-Default port is set to 8081
+Project implemented with Kotlin 1.5 (compiled to Java 11), SpringBoot 2.6, Gradle 6.8<br>
+DB used is H2 in-memory. H2 console is available at `http://<server:port>/h2-console`<br>
+API authentication is done using api key provided in `X-API-KEY` header (configured via `application.properties`)<br>
+API documentation is provided using Swagger2 (ui access via `http://<server:port>/swagger-ui.html`)<br>
+Default port is set to 8081<br>
 
 ##Building and running the application
 ###Prerequisites:
