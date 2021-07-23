@@ -5,6 +5,7 @@ import com.codeit.regoApi.model.Vehicle
 import com.codeit.regoApi.repository.VehicleRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import java.util.Optional
 
@@ -46,7 +47,7 @@ internal class VehicleServiceTest {
 
         //when
         //then
-        org.junit.jupiter.api.assertThrows<ExistingVehicleException> {
+        assertThrows<ExistingVehicleException> {
             service.createVehicle(rego, make, model)
         }
     }
